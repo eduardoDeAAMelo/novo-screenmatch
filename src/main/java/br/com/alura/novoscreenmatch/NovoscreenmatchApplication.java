@@ -1,14 +1,19 @@
 package br.com.alura.novoscreenmatch;
 
 import br.com.alura.novoscreenmatch.model.DadosSerie;
+import br.com.alura.novoscreenmatch.principal.Principal;
+import br.com.alura.novoscreenmatch.repository.SerieRepository;
 import br.com.alura.novoscreenmatch.service.ConsumoAPI;
 import br.com.alura.novoscreenmatch.service.ConverteDados;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class NovoscreenmatchApplication implements CommandLineRunner {
+	@Autowired
+	private SerieRepository repositorio;
 
 	public static void main(String[] args) {
 		SpringApplication.run(NovoscreenmatchApplication.class, args);
@@ -16,14 +21,7 @@ public class NovoscreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var consumoAPI = new ConsumoAPI();
-		var json = consumoAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&apikey=7cd6eaf5");
-	//	System.out.println(json);
-	//	json = consumoAPI.obterDados("https://coffee.alexflipnote.dev/random.json");
-		System.out.println(json);
-		ConverteDados conversor = new ConverteDados();
-		DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
-		System.out.println(dados);
-		
+		Principal principal = new Principal(repositorio);
+		principal.exibeMenu();
 	}
 }
